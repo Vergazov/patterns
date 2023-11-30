@@ -1,0 +1,9 @@
+{
+  "autoload": {
+    "psr-4": {
+      "character\\app\\": "character",
+      "duck\\app\\": "duck",
+      "weatherStation\\app\\": "weatherStation"
+    }
+  }
+}
