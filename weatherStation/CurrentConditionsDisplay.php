@@ -5,21 +5,21 @@ namespace weatherStation\app;
 
 class CurrentConditionsDisplay implements Observer, DisplayElement
 {
+    private Observable $observable;
     private float $temperature;
     private float $humidity;
-    private Subject $weatherData;
 
-
-    public function __construct(Subject $weatherData)
+    public function __construct(Observable $observable)
     {
-        $this->weatherData = $weatherData;
-        $weatherData->registerObserver($this);
+        $this->observable = $observable;
+        $observable->registerObserver($this);
     }
 
-    public function update($temperature, $humidity, $pressure):void
+    public function update(Observable $obs):void
     {
-        $this->temperature = $temperature;
-        $this->humidity = $humidity;
+        $weatherData = $obs;
+        $this->temperature = $weatherData->getTemperature();
+        $this->humidity = $weatherData->getHumidity();
         $this->display();
     }
 

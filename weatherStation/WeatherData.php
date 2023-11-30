@@ -2,40 +2,36 @@
 
 namespace weatherStation\app;
 
-class WeatherData implements Subject
+class WeatherData extends Observable
 {
-    private array $observers;
     private float $temperature;
     private float $humidity;
     private float $pressure;
 
-    public function registerObserver(Observer $o): void
-    {
-        $this->observers[$o->getClassName()] = $o;
-    }
-
-    public function removeObserver(Observer $o): void
-    {
-        unset($this->observers[$o->getClassName()]);
-    }
-
-    public function notifyObservers(): void
-    {
-        foreach ($this->observers as $observer) {
-            $observer->update($this->temperature, $this->humidity, $this->pressure);
-        }
-    }
-
     public function measurementsChanged(): void
     {
+        $this->setChanged();
         $this->notifyObservers();
     }
 
-    public function setMeasurements($temperature, $humidity, $pressure):void
+    public function setMeasurements($temperature, $humidity, $pressure): void
     {
         $this->temperature = $temperature;
         $this->humidity = $humidity;
         $this->pressure = $pressure;
         $this->measurementsChanged();
+    }
+
+    public function getTemperature(): float
+    {
+        return $this->temperature;
+    }
+    public function getHumidity(): float
+    {
+        return $this->humidity;
+    }
+    public function getPressure(): float
+    {
+        return $this->pressure;
     }
 }
